@@ -2,11 +2,10 @@
   <div class="container">
     <div>
       <h1 class="title">chorus-contest</h1>
-      <ul>
-        <li v-for="song in songs.body" :key="song.id">
-          <nuxt-link :to="'/' + song.title">{{ song.title }}</nuxt-link>
-        </li>
-      </ul>
+      <p>{{ song.title }}</p>
+      <p>{{ song.writer }}</p>
+      <p>{{ song.composer }}</p>
+      <p>{{ song.arranger }}</p>
     </div>
   </div>
 </template>
@@ -18,6 +17,13 @@ export default Vue.extend({
   async asyncData({ $content }) {
     const songs = await $content('songs').fetch()
     return { songs }
+  },
+  computed: {
+    song() {
+      return this.$data.songs.body.find(
+        (song: any) => song.title === this.$route.params.title
+      )
+    },
   },
 })
 </script>
