@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">chorus-contest</h1>
-      <p>{{ song.title }}</p>
+      <h1 class="title">{{ song.title }}</h1>
       <p>{{ song.writer }}</p>
       <p>{{ song.composer }}</p>
       <p>{{ song.arranger }}</p>
@@ -12,6 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import axios from 'axios'
 
 export default Vue.extend({
   async asyncData({ $content }) {
@@ -23,6 +23,20 @@ export default Vue.extend({
       return this.$data.songs.body.find(
         (song: any) => song.title === this.$route.params.title
       )
+    },
+    movies() {
+      const endpoint = 'https://www.googleapis.com/youtube/v3/search'
+      const part = 'snippet'
+      const q = `${this.song}|合唱曲`
+      const hoge = axios.get(endpoint, {
+        params: {
+          part,
+          q,
+          key: '',
+        },
+      })
+      console.log(hoge)
+      return []
     },
   },
 })
